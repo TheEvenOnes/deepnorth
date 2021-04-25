@@ -1,13 +1,30 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://Player.gd" type="Script" id=1]
 [ext_resource path="res://assets/light_mask.png" type="Texture" id=2]
 [ext_resource path="res://assets/player.png" type="Texture" id=3]
 [ext_resource path="res://assets/pixelated.tres" type="DynamicFont" id=4]
+[ext_resource path="res://assets/67243__robban87__snowstep.wav" type="AudioStream" id=5]
 
 [sub_resource type="Gradient" id=1]
 offsets = PoolRealArray( 0.0134228, 0.114094, 0.865772, 1 )
 colors = PoolColorArray( 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0 )
+
+[sub_resource type="Gradient" id=8]
+offsets = PoolRealArray( 0, 0.637584, 1 )
+colors = PoolColorArray( 0.592157, 0.717647, 0.760784, 0.501961, 0.592157, 0.717647, 0.760784, 0.501961, 0.592157, 0.717647, 0.760784, 0 )
+
+[sub_resource type="AtlasTexture" id=5]
+atlas = ExtResource( 3 )
+region = Rect2( 16, 0, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=6]
+atlas = ExtResource( 3 )
+region = Rect2( 32, 0, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=7]
+atlas = ExtResource( 3 )
+region = Rect2( 48, 0, 16, 16 )
 
 [sub_resource type="AtlasTexture" id=2]
 atlas = ExtResource( 3 )
@@ -15,6 +32,16 @@ region = Rect2( 0, 0, 16, 16 )
 
 [sub_resource type="SpriteFrames" id=3]
 animations = [ {
+"frames": [ SubResource( 5 ), SubResource( 6 ) ],
+"loop": true,
+"name": "Walking",
+"speed": 8.0
+}, {
+"frames": [ SubResource( 7 ) ],
+"loop": true,
+"name": "Dash",
+"speed": 5.0
+}, {
 "frames": [ SubResource( 2 ) ],
 "loop": true,
 "name": "Idle",
@@ -42,10 +69,21 @@ initial_velocity = 10.0
 initial_velocity_random = 1.0
 color_ramp = SubResource( 1 )
 
+[node name="Tracks" type="CPUParticles2D" parent="."]
+position = Vector2( 0, 2 )
+amount = 64
+lifetime = 6.0
+local_coords = false
+spread = 0.0
+gravity = Vector2( 0, 0 )
+color_ramp = SubResource( 8 )
+
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2( 0, -5 )
 z_index = 10
 current = true
+smoothing_enabled = true
+smoothing_speed = 4.0
 
 [node name="CanvasLayer" type="CanvasLayer" parent="Camera2D"]
 
@@ -81,6 +119,16 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="StaminaIndicator" type="ColorRect" parent="Camera2D/CanvasLayer/Control"]
+margin_left = 2.0
+margin_top = 85.0
+margin_right = 42.0
+margin_bottom = 88.0
+color = Color( 1, 0.890196, 0.309804, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 position = Vector2( 0, -5 )
 frames = SubResource( 3 )
@@ -97,3 +145,8 @@ shadow_filter_smooth = 64.0
 position = Vector2( 0, 2 )
 rotation = -1.57079
 shape = SubResource( 4 )
+
+[node name="SnowSteps" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 5 )
+volume_db = -10.0
+pitch_scale = 1.36
