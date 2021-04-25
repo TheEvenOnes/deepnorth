@@ -2,6 +2,7 @@ extends KinematicBody2D
 
 onready var sprite = $AnimatedSprite
 onready var snowsteps = $SnowSteps
+onready var winter_snow_loop = $WinterSnowLoop
 
 const ACCELERATION = 650
 const MAX_SPEED = 50
@@ -15,6 +16,7 @@ var velocity = Vector2.ZERO
 
 func _ready() -> void:
 	current_stamina = stamina
+	winter_snow_loop.play()
 
 func _physics_process(delta: float) -> void:
 	var input: Vector2 = Vector2.ZERO
@@ -24,7 +26,7 @@ func _physics_process(delta: float) -> void:
 	if input.length() > 0:
 		if sprite.animation != 'Walking':
 			sprite.play('Walking')
-			snowsteps.play(0.0)
+			snowsteps.play(0.5 + randf())
 		input = input.normalized()
 		velocity = velocity.move_toward(input * MAX_SPEED, ACCELERATION * delta)
 	else:
