@@ -1,6 +1,6 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=28 format=2]
 
-[ext_resource path="res://Player.gd" type="Script" id=1]
+[ext_resource path="res://object/Player.gd" type="Script" id=1]
 [ext_resource path="res://assets/light_mask.png" type="Texture" id=2]
 [ext_resource path="res://assets/player.png" type="Texture" id=3]
 [ext_resource path="res://assets/pixelated.tres" type="DynamicFont" id=4]
@@ -9,12 +9,13 @@
 [ext_resource path="res://assets/sun_shard.png" type="Texture" id=7]
 [ext_resource path="res://assets/sfx/wolf_howls.ogg" type="AudioStream" id=8]
 [ext_resource path="res://assets/sfx/dash_through_snow.ogg" type="AudioStream" id=9]
+[ext_resource path="res://assets/sfx/442903__qubodup__slash.wav" type="AudioStream" id=10]
 
 [sub_resource type="Gradient" id=1]
 offsets = PoolRealArray( 0, 0.637584, 1 )
 colors = PoolColorArray( 0.592157, 0.717647, 0.760784, 0.501961, 0.592157, 0.717647, 0.760784, 0.501961, 0.592157, 0.717647, 0.760784, 0 )
 
-[sub_resource type="Animation" id=9]
+[sub_resource type="Animation" id=2]
 resource_name = "FadeIn"
 length = 0.2
 tracks/0/type = "value"
@@ -30,49 +31,113 @@ tracks/0/keys = {
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
 }
 
-[sub_resource type="AtlasTexture" id=2]
-atlas = ExtResource( 3 )
-region = Rect2( 0, 0, 16, 16 )
-
-[sub_resource type="AtlasTexture" id=3]
-atlas = ExtResource( 3 )
-region = Rect2( 16, 0, 16, 16 )
+[sub_resource type="Animation" id=3]
+resource_name = "MiniBob"
+length = 0.15
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rect_position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.05, 0.1, 0.15 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 147, -1 ), Vector2( 146, -2 ), Vector2( 148, -2 ), Vector2( 147, -1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:rect_rotation")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.05, 0.1, 0.15 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 0.0, 0.0, 0.0 ]
+}
 
 [sub_resource type="AtlasTexture" id=4]
 atlas = ExtResource( 3 )
-region = Rect2( 32, 0, 16, 16 )
+region = Rect2( 0, 0, 16, 16 )
 
 [sub_resource type="AtlasTexture" id=5]
 atlas = ExtResource( 3 )
 region = Rect2( 48, 0, 16, 16 )
 
-[sub_resource type="SpriteFrames" id=6]
+[sub_resource type="AtlasTexture" id=6]
+atlas = ExtResource( 3 )
+region = Rect2( 64, 0, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=7]
+atlas = ExtResource( 3 )
+region = Rect2( 80, 0, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=8]
+atlas = ExtResource( 3 )
+region = Rect2( 96, 0, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=9]
+atlas = ExtResource( 3 )
+region = Rect2( 112, 0, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=10]
+atlas = ExtResource( 3 )
+region = Rect2( 128, 0, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=11]
+atlas = ExtResource( 3 )
+region = Rect2( 16, 0, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=12]
+atlas = ExtResource( 3 )
+region = Rect2( 32, 0, 16, 16 )
+
+[sub_resource type="SpriteFrames" id=13]
 animations = [ {
-"frames": [ SubResource( 2 ) ],
+"frames": [ SubResource( 4 ) ],
 "loop": true,
 "name": "Idle",
 "speed": 5.0
-}, {
-"frames": [ SubResource( 3 ), SubResource( 4 ) ],
-"loop": true,
-"name": "Walking",
-"speed": 8.0
 }, {
 "frames": [ SubResource( 5 ) ],
 "loop": true,
 "name": "Dash",
 "speed": 5.0
+}, {
+"frames": [ SubResource( 6 ), SubResource( 7 ), SubResource( 8 ), SubResource( 9 ), SubResource( 10 ) ],
+"loop": false,
+"name": "Slash",
+"speed": 16.0
+}, {
+"frames": [ SubResource( 11 ), SubResource( 12 ) ],
+"loop": true,
+"name": "Walking",
+"speed": 8.0
 } ]
 
-[sub_resource type="CapsuleShape2D" id=7]
+[sub_resource type="CapsuleShape2D" id=14]
 radius = 0.999992
 height = 2.0
 
-[sub_resource type="Gradient" id=8]
+[sub_resource type="Gradient" id=15]
 offsets = PoolRealArray( 0.0134228, 0.114094, 0.865772, 1 )
 colors = PoolColorArray( 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0 )
 
-[node name="Player" type="KinematicBody2D"]
+[sub_resource type="CapsuleShape2D" id=16]
+radius = 3.0
+height = 4.0
+
+[sub_resource type="CapsuleShape2D" id=17]
+radius = 6.00002
+height = 5.99995
+
+[node name="Player" type="KinematicBody2D" groups=[
+"player",
+]]
 position = Vector2( 136, 100 )
 script = ExtResource( 1 )
 
@@ -118,7 +183,7 @@ __meta__ = {
 }
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Camera2D/CanvasLayer/Control/Info"]
-anims/FadeIn = SubResource( 9 )
+anims/FadeIn = SubResource( 2 )
 
 [node name="SunShardsCounter" type="Label" parent="Camera2D/CanvasLayer/Control"]
 margin_left = 122.0
@@ -153,7 +218,39 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="TextureRect" type="TextureRect" parent="Camera2D/CanvasLayer/Control"]
+[node name="Background" type="ColorRect" parent="Camera2D/CanvasLayer/Control/StaminaIndicator"]
+show_behind_parent = true
+margin_left = -1.0
+margin_top = -1.0
+margin_right = 41.0
+margin_bottom = 4.0
+color = Color( 0, 0, 0, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HealthIndicator" type="ColorRect" parent="Camera2D/CanvasLayer/Control"]
+margin_left = 2.0
+margin_top = 79.0
+margin_right = 42.0
+margin_bottom = 82.0
+color = Color( 1, 0, 0, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Background" type="ColorRect" parent="Camera2D/CanvasLayer/Control/HealthIndicator"]
+show_behind_parent = true
+margin_left = -1.0
+margin_top = -1.0
+margin_right = 41.0
+margin_bottom = 4.0
+color = Color( 0, 0, 0, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SunShardIcon" type="TextureRect" parent="Camera2D/CanvasLayer/Control"]
 margin_left = 147.0
 margin_top = -1.0
 margin_right = 163.0
@@ -163,10 +260,14 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Camera2D/CanvasLayer/Control/SunShardIcon"]
+anims/MiniBob = SubResource( 3 )
+
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 position = Vector2( 0, -5 )
-frames = SubResource( 6 )
-animation = "Idle"
+frames = SubResource( 13 )
+animation = "Slash"
+frame = 3
 
 [node name="Light2D" type="Light2D" parent="."]
 position = Vector2( 0, -1 )
@@ -178,7 +279,7 @@ shadow_filter_smooth = 64.0
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0, 2 )
 rotation = -1.57079
-shape = SubResource( 7 )
+shape = SubResource( 14 )
 
 [node name="Snow" type="CPUParticles2D" parent="."]
 position = Vector2( 0, -7 )
@@ -191,7 +292,7 @@ spread = 10.0
 gravity = Vector2( 0, 0 )
 initial_velocity = 10.0
 initial_velocity_random = 1.0
-color_ramp = SubResource( 8 )
+color_ramp = SubResource( 15 )
 
 [node name="Sounds" type="Position2D" parent="."]
 
@@ -211,3 +312,21 @@ stream = ExtResource( 8 )
 
 [node name="Dash" type="AudioStreamPlayer2D" parent="Sounds"]
 stream = ExtResource( 9 )
+
+[node name="Slash" type="AudioStreamPlayer2D" parent="Sounds"]
+stream = ExtResource( 10 )
+volume_db = -10.0
+pitch_scale = 1.5
+
+[node name="Collectbox" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Collectbox"]
+position = Vector2( 0, -1 )
+shape = SubResource( 16 )
+
+[node name="Hurtbox" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+position = Vector2( 4, -2 )
+rotation = 1.57079
+shape = SubResource( 17 )

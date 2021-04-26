@@ -1,8 +1,11 @@
-[gd_scene load_steps=23 format=2]
+[gd_scene load_steps=26 format=2]
 
 [ext_resource path="res://assets/snow_tiles.png" type="Texture" id=1]
 [ext_resource path="res://object/Torch.tscn" type="PackedScene" id=2]
 [ext_resource path="res://object/Player.tscn" type="PackedScene" id=3]
+[ext_resource path="res://object/SunShard.tscn" type="PackedScene" id=4]
+[ext_resource path="res://object/HealthGlobe.tscn" type="PackedScene" id=5]
+[ext_resource path="res://object/Enemy.tscn" type="PackedScene" id=6]
 
 [sub_resource type="OccluderPolygon2D" id=1]
 polygon = PoolVector2Array( 4.06285, 13.7987, 5.57731, 10.9861, 4.82007, 5.68548, 7.52447, 1.46663, 9.85024, 4.82007, 11.7974, 5.84774, 9.95842, 8.06535, 11.1484, 9.68798, 9.68798, 11.5811, 11.2024, 14.015 )
@@ -347,3 +350,27 @@ position = Vector2( 103, 87 )
 
 [node name="Player" parent="Props" instance=ExtResource( 3 )]
 position = Vector2( 109, 96 )
+
+[node name="SunShard" parent="Props" instance=ExtResource( 4 )]
+position = Vector2( 107, 125 )
+
+[node name="HealthGlobe" parent="Props" instance=ExtResource( 5 )]
+position = Vector2( 54, 115 )
+
+[node name="HealthGlobe2" parent="Props" instance=ExtResource( 5 )]
+position = Vector2( 63, 121 )
+
+[node name="HealthGlobe3" parent="Props" instance=ExtResource( 5 )]
+position = Vector2( 61, 107 )
+
+[node name="Enemy" parent="Props" instance=ExtResource( 6 )]
+position = Vector2( 163, 125 )
+
+[node name="Enemy2" parent="Props" instance=ExtResource( 6 )]
+position = Vector2( 183, 107 )
+
+[node name="Enemy3" parent="Props" instance=ExtResource( 6 )]
+position = Vector2( 185, 129 )
+
+[node name="Enemy4" parent="Props" instance=ExtResource( 6 )]
+position = Vector2( 111, 135 )

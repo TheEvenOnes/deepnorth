@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/collect_health_globe.ogg-9ffe011b24e183ee75a87bc17071aa9f.oggstr"
+
+[deps]
+
+source_file="res://assets/sfx/collect_health_globe.ogg"
+dest_files=[ "res://.import/collect_health_globe.ogg-9ffe011b24e183ee75a87bc17071aa9f.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0
