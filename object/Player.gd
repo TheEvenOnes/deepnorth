@@ -105,7 +105,7 @@ func process_walking(delta: float) -> void:
 	input.x = Input.get_action_strength('ui_right') - Input.get_action_strength('ui_left')
 	input.y = Input.get_action_strength('ui_down') - Input.get_action_strength('ui_up')
 
-	if Input.is_action_just_pressed('ui_accept') and current_stamina > 3.33:
+	if Input.is_action_just_pressed('ui_accept') and current_stamina > 1.5:
 		snowsteps.stop()
 		next_state(State.Dashing)
 		process_dashing(delta)
@@ -127,7 +127,7 @@ func process_walking(delta: float) -> void:
 func process_dashing(delta: float) -> void:
 	if previous_state != State.Dashing:
 		next_state(State.Dashing)
-		current_stamina -= 3.33
+		current_stamina -= 1.5
 		sprite.play('Dash')
 		snowsteps.stop()
 		dash.play()

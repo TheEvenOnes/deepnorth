@@ -487,7 +487,6 @@ anims/Shake = SubResource( 15 )
 
 [node name="Light2D" type="Light2D" parent="."]
 position = Vector2( 0, -1 )
-enabled = false
 texture = ExtResource( 2 )
 color = Color( 1, 1, 1, 0.94902 )
 mode = 2
