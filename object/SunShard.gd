@@ -8,6 +8,7 @@ var collected = false
 
 func _ready() -> void:
 	animation.play('Bob')
+	animation.seek(randf(), true)
 
 func collect() -> void:
 	collected = true

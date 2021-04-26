@@ -1,7 +1,10 @@
 extends KinematicBody2D
 class_name Player
 
+var game_state = preload('res://level/GameState.tres')
+
 onready var sprite = $AnimatedSprite
+onready var anim_player = $AnimatedSprite/AnimationPlayer
 
 onready var snowsteps = $Sounds/SnowSteps
 onready var winter_snow_loop = $Sounds/WinterSnowLoop
@@ -29,21 +32,25 @@ export(float) var health = 10.0
 var current_health = health * 0.5
 
 export(float) var stamina = 10.0
-export(float) var stamina_regen = 1.5
+export(float) var stamina_regen = 2.0
 var current_stamina: float
 var sun_shards: float = 0
 
 var velocity = Vector2.ZERO
 var last_direction = Vector2.RIGHT
 var slashing_timer: float = 0
+var dead = false
 
 enum State {
+	PreGame
 	Idle
 	Walking
 	Dashing
 	Slashing
+	Dead
+	Victory
 }
-var state = State.Idle
+var state = State.PreGame
 var previous_state = State.Idle
 
 func next_state(new_state: int) -> void:
@@ -59,7 +66,7 @@ func _ready() -> void:
 	yield(get_tree().create_timer(1.0), 'timeout')
 	# wolf_boss.play()
 	yield(get_tree().create_timer(2.0), 'timeout')
-	info_text = 'Wolf  howls  in  the  distance, be  careful'
+	info_text.text = 'Explore  towards  the  North'
 	info_text_anim.play('FadeIn')
 	yield(get_tree().create_timer(6.0), 'timeout')
 	info_text_anim.play_backwards('FadeIn')
@@ -157,6 +164,23 @@ func process_movement() -> void:
 		sprite.flip_h = false
 		hurt_box.transform.x = -hurt_box.transform.x
 
+func take_damage(amount: float, from: Vector2) -> void:
+	current_health -= amount
+	anim_player.play('Shake')
+	var back_off = (from - position).normalized() * 5.0
+	position -= back_off
+	if current_health <= 0.0 and not dead:
+		die()
+
+func die():
+	dead = true
+	next_state(State.Dead)
+	sprite.stop()
+	snowsteps.stop()
+	dash.stop()
+	$Camera2D/CanvasLayer/Control/Overlay.visible = true
+	$Camera2D/CanvasLayer/Control/Overlay/AnimationPlayer.play('FadeIn')
+	velocity *= 0
 
 func process_overlap() -> void:
 	pass
@@ -175,6 +199,17 @@ func _physics_process(delta: float) -> void:
 	process_movement()
 	process_overlap()
 	update_gui()
+	if get_tree().get_nodes_in_group('enemy').size() == 0 and state != State.Victory:
+		next_state(State.Victory)
+		sprite.stop()
+		snowsteps.stop()
+		dash.stop()
+		$Camera2D/CanvasLayer/Control/Victory.visible = true
+		$Camera2D/CanvasLayer/Control/Victory/AnimationPlayer.play('FadeIn')
+
+
+func is_dashing() -> bool:
+	return state == State.Dashing
 
 func _on_area_entered(area: Area2D) -> void:
 	if area is SunShard and not area.collected:
@@ -183,10 +218,20 @@ func _on_area_entered(area: Area2D) -> void:
 		sun_shards += 1
 	elif area is HealthGlobe and not area.collected:
 		area.collect()
-		current_health += 1
+		current_health = min(current_health + 1, health)
 
 func _on_area_entered_hurtbox(enemy: Area2D) -> void:
-	print(enemy)
 	if enemy is Enemy:
 		enemy.take_damage(1, position)
 
+func _unhandled_key_input(event: InputEventKey) -> void:
+	if event.pressed and event.scancode == KEY_ESCAPE:
+		get_tree().quit()
+	if event.pressed and event.scancode == KEY_SPACE and (state == State.Dead or state == State.Victory):
+		game_state.day = 1
+		get_tree().reload_current_scene()
+	if event.pressed and event.scancode == KEY_SPACE and state == State.PreGame:
+		game_state.day = 1
+		$Camera2D/CanvasLayer/Control/Hint/AnimationPlayer.play('FadeOut')
+		yield(get_tree().create_timer(1.0), 'timeout')
+		next_state(State.Idle)
