@@ -66,7 +66,7 @@ func _ready() -> void:
 	yield(get_tree().create_timer(1.0), 'timeout')
 	# wolf_boss.play()
 	yield(get_tree().create_timer(2.0), 'timeout')
-	info_text.text = 'Explore  towards  the  North'
+	info_text.text = 'Explore  deeper  into  the  North'
 	info_text_anim.play('FadeIn')
 	yield(get_tree().create_timer(6.0), 'timeout')
 	info_text_anim.play_backwards('FadeIn')
