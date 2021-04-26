@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/wolf_howls.ogg-1e561b47c7527180861f548dd34674cb.oggstr"
+
+[deps]
+
+source_file="res://assets/sfx/wolf_howls.ogg"
+dest_files=[ "res://.import/wolf_howls.ogg-1e561b47c7527180861f548dd34674cb.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

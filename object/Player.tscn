@@ -1,74 +1,80 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://Player.gd" type="Script" id=1]
 [ext_resource path="res://assets/light_mask.png" type="Texture" id=2]
 [ext_resource path="res://assets/player.png" type="Texture" id=3]
 [ext_resource path="res://assets/pixelated.tres" type="DynamicFont" id=4]
-[ext_resource path="res://assets/snowsteps.ogg" type="AudioStream" id=5]
-[ext_resource path="res://assets/winter_night.ogg" type="AudioStream" id=6]
+[ext_resource path="res://assets/sfx/snowsteps.ogg" type="AudioStream" id=5]
+[ext_resource path="res://assets/sfx/winter_wind.ogg" type="AudioStream" id=6]
+[ext_resource path="res://assets/sun_shard.png" type="Texture" id=7]
+[ext_resource path="res://assets/sfx/wolf_howls.ogg" type="AudioStream" id=8]
+[ext_resource path="res://assets/sfx/dash_through_snow.ogg" type="AudioStream" id=9]
 
 [sub_resource type="Gradient" id=1]
-offsets = PoolRealArray( 0.0134228, 0.114094, 0.865772, 1 )
-colors = PoolColorArray( 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0 )
-
-[sub_resource type="Gradient" id=8]
 offsets = PoolRealArray( 0, 0.637584, 1 )
 colors = PoolColorArray( 0.592157, 0.717647, 0.760784, 0.501961, 0.592157, 0.717647, 0.760784, 0.501961, 0.592157, 0.717647, 0.760784, 0 )
 
-[sub_resource type="AtlasTexture" id=5]
-atlas = ExtResource( 3 )
-region = Rect2( 16, 0, 16, 16 )
-
-[sub_resource type="AtlasTexture" id=6]
-atlas = ExtResource( 3 )
-region = Rect2( 32, 0, 16, 16 )
-
-[sub_resource type="AtlasTexture" id=7]
-atlas = ExtResource( 3 )
-region = Rect2( 48, 0, 16, 16 )
+[sub_resource type="Animation" id=9]
+resource_name = "FadeIn"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
 
 [sub_resource type="AtlasTexture" id=2]
 atlas = ExtResource( 3 )
 region = Rect2( 0, 0, 16, 16 )
 
-[sub_resource type="SpriteFrames" id=3]
+[sub_resource type="AtlasTexture" id=3]
+atlas = ExtResource( 3 )
+region = Rect2( 16, 0, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=4]
+atlas = ExtResource( 3 )
+region = Rect2( 32, 0, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=5]
+atlas = ExtResource( 3 )
+region = Rect2( 48, 0, 16, 16 )
+
+[sub_resource type="SpriteFrames" id=6]
 animations = [ {
-"frames": [ SubResource( 5 ), SubResource( 6 ) ],
-"loop": true,
-"name": "Walking",
-"speed": 8.0
-}, {
-"frames": [ SubResource( 7 ) ],
-"loop": true,
-"name": "Dash",
-"speed": 5.0
-}, {
 "frames": [ SubResource( 2 ) ],
 "loop": true,
 "name": "Idle",
 "speed": 5.0
+}, {
+"frames": [ SubResource( 3 ), SubResource( 4 ) ],
+"loop": true,
+"name": "Walking",
+"speed": 8.0
+}, {
+"frames": [ SubResource( 5 ) ],
+"loop": true,
+"name": "Dash",
+"speed": 5.0
 } ]
 
-[sub_resource type="CapsuleShape2D" id=4]
+[sub_resource type="CapsuleShape2D" id=7]
 radius = 0.999992
 height = 2.0
+
+[sub_resource type="Gradient" id=8]
+offsets = PoolRealArray( 0.0134228, 0.114094, 0.865772, 1 )
+colors = PoolColorArray( 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0 )
 
 [node name="Player" type="KinematicBody2D"]
 position = Vector2( 136, 100 )
 script = ExtResource( 1 )
-
-[node name="Snow" type="CPUParticles2D" parent="."]
-position = Vector2( 0, -7 )
-amount = 512
-local_coords = false
-emission_shape = 2
-emission_rect_extents = Vector2( 80, 45 )
-direction = Vector2( 1, 1 )
-spread = 10.0
-gravity = Vector2( 0, 0 )
-initial_velocity = 10.0
-initial_velocity_random = 1.0
-color_ramp = SubResource( 1 )
 
 [node name="Tracks" type="CPUParticles2D" parent="."]
 position = Vector2( 0, 2 )
@@ -77,7 +83,7 @@ lifetime = 6.0
 local_coords = false
 spread = 0.0
 gravity = Vector2( 0, 0 )
-color_ramp = SubResource( 8 )
+color_ramp = SubResource( 1 )
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2( 0, -5 )
@@ -98,22 +104,39 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label" type="Label" parent="Camera2D/CanvasLayer/Control"]
-margin_left = 120.0
-margin_top = 1.0
-margin_right = 160.0
-margin_bottom = 15.0
+[node name="Info" type="Label" parent="Camera2D/CanvasLayer/Control"]
+modulate = Color( 1, 1, 1, 0 )
+margin_left = 2.0
+margin_top = 15.0
+margin_right = 157.0
+margin_bottom = 25.0
 custom_fonts/font = ExtResource( 4 )
-text = "testing 123"
+text = "Wolf howls  in the distance, be  careful"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Camera2D/CanvasLayer/Control/Info"]
+anims/FadeIn = SubResource( 9 )
+
+[node name="SunShardsCounter" type="Label" parent="Camera2D/CanvasLayer/Control"]
+margin_left = 122.0
+margin_top = 3.0
+margin_right = 148.0
+margin_bottom = 13.0
+custom_fonts/font = ExtResource( 4 )
+text = "0x"
+align = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Warmth Status" type="Label" parent="Camera2D/CanvasLayer/Control"]
 margin_left = 2.0
-margin_top = 1.0
-margin_right = 42.0
-margin_bottom = 15.0
+margin_top = 3.0
+margin_right = 128.0
+margin_bottom = 13.0
 custom_fonts/font = ExtResource( 4 )
 text = "You are  feeling warm"
 __meta__ = {
@@ -130,9 +153,19 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="TextureRect" type="TextureRect" parent="Camera2D/CanvasLayer/Control"]
+margin_left = 147.0
+margin_top = -1.0
+margin_right = 163.0
+margin_bottom = 15.0
+texture = ExtResource( 7 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 position = Vector2( 0, -5 )
-frames = SubResource( 3 )
+frames = SubResource( 6 )
 animation = "Idle"
 
 [node name="Light2D" type="Light2D" parent="."]
@@ -145,13 +178,36 @@ shadow_filter_smooth = 64.0
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0, 2 )
 rotation = -1.57079
-shape = SubResource( 4 )
+shape = SubResource( 7 )
 
-[node name="SnowSteps" type="AudioStreamPlayer2D" parent="."]
+[node name="Snow" type="CPUParticles2D" parent="."]
+position = Vector2( 0, -7 )
+amount = 512
+local_coords = false
+emission_shape = 2
+emission_rect_extents = Vector2( 80, 45 )
+direction = Vector2( 1, 1 )
+spread = 10.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 10.0
+initial_velocity_random = 1.0
+color_ramp = SubResource( 8 )
+
+[node name="Sounds" type="Position2D" parent="."]
+
+[node name="SnowSteps" type="AudioStreamPlayer2D" parent="Sounds"]
 stream = ExtResource( 5 )
 volume_db = -10.0
 pitch_scale = 1.36
 
-[node name="WinterSnowLoop" type="AudioStreamPlayer2D" parent="."]
+[node name="WinterSnowLoop" type="AudioStreamPlayer2D" parent="Sounds"]
 stream = ExtResource( 6 )
+volume_db = 10.0
 attenuation = 0.00552427
+
+[node name="WolfBoss" type="AudioStreamPlayer2D" parent="Sounds"]
+position = Vector2( -136, -100 )
+stream = ExtResource( 8 )
+
+[node name="Dash" type="AudioStreamPlayer2D" parent="Sounds"]
+stream = ExtResource( 9 )

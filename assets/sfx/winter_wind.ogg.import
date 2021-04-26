@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/winter_wind.ogg-a48cc6875e0ceb53c696cee18de2fe5e.oggstr"
+
+[deps]
+
+source_file="res://assets/sfx/winter_wind.ogg"
+dest_files=[ "res://.import/winter_wind.ogg-a48cc6875e0ceb53c696cee18de2fe5e.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0

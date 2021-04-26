@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/dash_through_snow.ogg-15251c0bfdc20db77aa42a5e8d91c63f.oggstr"
+
+[deps]
+
+source_file="res://assets/sfx/dash_through_snow.ogg"
+dest_files=[ "res://.import/dash_through_snow.ogg-15251c0bfdc20db77aa42a5e8d91c63f.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0
